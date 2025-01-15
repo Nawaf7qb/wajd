@@ -164,7 +164,6 @@ async function startRecordingAndAnalysis() {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
         // إضافة تأخير إضافي قبل بدء التسجيل الأولي
-        await new Promise(resolve => setTimeout(resolve, 50)); // تأخير 1500 مللي ثانية (1.5 ثانية)
 
         // إنشاء كائن MediaRecorder لتسجيل الصوت
         mediaRecorder = new MediaRecorder(stream);
