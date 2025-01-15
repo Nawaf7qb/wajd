@@ -187,7 +187,7 @@ async function startRecordingAndAnalysis() {
         recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = "ar-SA"; // تعيين اللغة إلى العربية
         recognition.interimResults = false; // نتائج نهائية فقط
-        recognition.maxAlternatives = 1; // نتيجة واحدة فقط
+        recognition.maxAlternatives = 3; // نتيجة واحدة فقط
         recognition.continuous = false; // التعرف على كلمة واحدة فقط
         recognition.interimResults = false; // نتائج نهائية فقط
 
