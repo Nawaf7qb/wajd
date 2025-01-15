@@ -231,9 +231,9 @@ a:active {
 /* تنسيق حاوية الفيديو */
 .video-container {
     position: relative;
-    width: 560px; /* عرض الفيديو */
-    height: 315px; /* ارتفاع الفيديو */
-    margin: 10px auto; /* توسيط الفيديو */
+    width: 100%;
+    max-width: 560px; /* عرض الفيديو */
+    margin: 20px auto; /* توسيط الفيديو */
     border-radius: 10px; /* زوايا مدورة */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* ظل خفيف */
     overflow: hidden; /* لإخفاء أي محتوى يخرج عن حدود الحاوية */
