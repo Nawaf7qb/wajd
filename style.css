@@ -11,9 +11,13 @@ body {
 }
 
 header {
-    background-color: #FF80AB; /* وردي متوسط */
+    background-color: #A5D6A7; /* أخضر فاتح */
     padding: 20px;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* مسافة بين العناصر */
 }
 
 header .logo {
@@ -23,14 +27,23 @@ header .logo {
     cursor: pointer; /* تغيير المؤشر إلى يد عند التمرير */
 }
 
-header .logo:hover {
-    transform: scale(1.1); /* تكبير الشعار عند التمرير */
+header .profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%; /* جعل الصورة دائرية */
+    border: 2px solid white; /* إطار أبيض حول الصورة */
+    transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease; /* إضافة انتقال سلس */
+    cursor: pointer; /* تغيير المؤشر إلى يد عند التمرير */
+}
+
+header .logo:hover, header .profile-pic:hover {
+    transform: scale(1.1); /* تكبير الشعار والصورة عند التمرير */
     opacity: 0.9; /* تقليل الشفافية قليلاً */
     filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3)); /* إضافة ظل خفيف */
 }
 
-header .logo:active {
-    transform: scale(0.95); /* تصغير الشعار قليلاً عند النقر */
+header .logo:active, header .profile-pic:active {
+    transform: scale(0.95); /* تصغير الشعار والصورة قليلاً عند النقر */
     opacity: 0.8; /* تقليل الشفافية أكثر */
 }
 
@@ -115,7 +128,7 @@ audio {
 }
 
 .action-buttons button:hover {
-    background-color: #E91E63; /* وردي غامق */
+    background-color: #E91E63; /* وردي أغمق */
     transform: scale(1.05); /* تكبير الزر قليلاً عند التمرير */
 }
 
