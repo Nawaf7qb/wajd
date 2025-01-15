@@ -130,11 +130,19 @@ audio {
     margin-top: 20px;
     font-weight: bold; /* جعل الكلمة غامقة */
     transition: color 0.3s ease, transform 0.3s ease; /* إضافة انتقال سلس */
+    padding: 20px; /* إضافة padding للإطار */
+    background-color: #E0F7FA; /* لون سماوي فاتح */
+    border: 3px solid #00BCD4; /* إطار سماوي */
+    border-radius: 15px; /* زوايا مدورة */
+    display: inline-block; /* لجعل الإطار يتناسب مع حجم النص */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* ظل خفيف */
 }
 
 #challenge-text:hover {
     color: #C2185B; /* تغيير اللون عند التمرير */
     transform: scale(1.05); /* تكبير النص قليلاً عند التمرير */
+    background-color: #B2EBF2; /* تغيير لون الخلفية عند التمرير */
+    border-color: #0097A7; /* تغيير لون الإطار عند التمرير */
 }
 
 /* تأثير عند التمرير على نص المستوى */
