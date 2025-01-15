@@ -241,3 +241,47 @@ a:active {
 .image-container img:hover {
     transform: scale(1.05); /* تكبير الصورة قليلاً عند التمرير */
 }
+
+/* تنسيق النص الجديد فوق زر "سجّل صوتك" */
+.reading-time-info {
+    margin-bottom: 20px; /* مسافة بين النص وزر التسجيل */
+    padding: 15px;
+    background-color: transparent; /* إزالة الخلفية */
+    border: none; /* إزالة الإطار */
+    box-shadow: none; /* إزالة الظل */
+}
+
+.reading-time-info h3 {
+    font-size: 24px;
+    color: #E91E63; /* لون وردي غامق */
+    margin-bottom: 10px;
+}
+
+.reading-time-info p {
+    font-size: 20px;
+    color: #E91E63; /* لون وردي غامق */
+    font-weight: bold;
+}
+
+/* تكبير زر "سجّل صوتك" */
+#record-button, #stop-record-button, #replay-button {
+    font-size: 24px; /* زيادة حجم الخط */
+    padding: 15px 30px; /* زيادة حجم الزر */
+    margin-top: 20px; /* زيادة المسافة من الأعلى */
+    background-color: #E91E63; /* وردي غامق */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.1s ease, opacity 0.1s ease; /* إضافة انتقال سلس */
+}
+
+#record-button:hover, #stop-record-button:hover, #replay-button:hover {
+    background-color: #C2185B; /* وردي أغمق */
+    transform: scale(1.05); /* تكبير الزر قليلاً عند التمرير */
+}
+
+#record-button:active, #stop-record-button:active, #replay-button:active {
+    transform: scale(0.98); /* تصغير الزر قليلاً عند النقر */
+    opacity: 0.9; /* تقليل الشفافية قليلاً */
+}
