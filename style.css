@@ -176,14 +176,42 @@ a:active {
     color: #FF4081; /* تغيير لون النص عند النقر */
 }
 
-/* تنسيق قسم الصور عن الدراسة */
-#study-images {
+/* تنسيق قسم شرح الموقع والفيديو */
+#site-description {
     margin-top: 30px;
 }
 
-#study-images h2 {
+#site-description h2 {
     font-size: 24px;
     color: #E91E63;
+}
+
+.video-instruction {
+    font-size: 18px;
+    color: #E91E63;
+    margin-bottom: 10px;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 560px; /* عرض الفيديو */
+    margin: 20px auto; /* توسيط الفيديو */
+    border-radius: 10px; /* زوايا مدورة */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* ظل خفيف */
+    overflow: hidden; /* لإخفاء أي محتوى يخرج عن حدود الحاوية */
+}
+
+/* تأثير عند التمرير على الفيديو */
+.video-container:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* زيادة الظل عند التمرير */
+    transform: scale(1.05); /* تكبير الفيديو قليلاً عند التمرير */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* إضافة انتقال سلس */
+}
+
+/* تنسيق قسم "شاهد التحدي" مع الصور */
+#challenge-view {
+    margin-top: 30px;
 }
 
 .image-container {
@@ -195,7 +223,8 @@ a:active {
 }
 
 .image-container img {
-    width: 30%;
+    width: 30%; /* تقليل عرض الصور إلى 30% */
+    max-width: 300px; /* تحديد أقصى عرض للصور */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
@@ -203,64 +232,4 @@ a:active {
 
 .image-container img:hover {
     transform: scale(1.05); /* تكبير الصورة قليلاً عند التمرير */
-}
-
-/* تنسيق زر إعادة النطق */
-#replay-button {
-    background-color: #FF80AB; /* وردي متوسط */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: transform 0.1s ease, opacity 0.1s ease; /* إضافة انتقال سلس */
-}
-
-#replay-button:hover {
-    background-color: #E91E63; /* وردي أغمق */
-    transform: scale(1.05); /* تكبير الزر قليلاً عند التمرير */
-}
-
-#replay-button:active {
-    transform: scale(0.98); /* تصغير الزر قليلاً عند النقر */
-    opacity: 0.9; /* تقليل الشفافية قليلاً */
-}
-
-/* تنسيق حاوية الفيديو */
-.video-container {
-    position: relative;
-    width: 100%;
-    max-width: 560px; /* عرض الفيديو */
-    margin: 20px auto; /* توسيط الفيديو */
-    border-radius: 10px; /* زوايا مدورة */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* ظل خفيف */
-    overflow: hidden; /* لإخفاء أي محتوى يخرج عن حدود الحاوية */
-}
-
-/* تنسيق نص الشرح فوق الفيديو */
-.video-description {
-    position: absolute;
-    bottom: 0; /* وضع النص في الجزء السفلي من الفيديو */
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.7); /* خلفية شبه شفافة */
-    color: white; /* لون النص */
-    padding: 10px;
-    text-align: center;
-    font-size: 16px;
-    border-radius: 0 0 10px 10px; /* تقريب الزوايا السفلية */
-}
-
-/* تأثير عند التمرير على الفيديو */
-.video-container:hover .video-description {
-    background-color: rgba(0, 0, 0, 0.9); /* تغيير لون الخلفية عند التمرير */
-}
-
-/* تأثير عند التمرير على الفيديو */
-.video-container:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* زيادة الظل عند التمرير */
-    transform: scale(1.05); /* تكبير الفيديو قليلاً عند التمرير */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* إضافة انتقال سلس */
 }
