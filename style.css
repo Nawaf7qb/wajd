@@ -1,0 +1,229 @@
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #F8BBD0; /* وردي فاتح */
+    color: #333;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* لجعل الصفحة تمتد على الأقل لارتفاع الشاشة */
+}
+
+header {
+    background-color: #FF80AB; /* وردي متوسط */
+    padding: 20px;
+    color: white;
+}
+
+header .logo {
+    width: 100px;
+    height: auto;
+    transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease; /* إضافة انتقال سلس */
+    cursor: pointer; /* تغيير المؤشر إلى يد عند التمرير */
+}
+
+header .logo:hover {
+    transform: scale(1.1); /* تكبير الشعار عند التمرير */
+    opacity: 0.9; /* تقليل الشفافية قليلاً */
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3)); /* إضافة ظل خفيف */
+}
+
+header .logo:active {
+    transform: scale(0.95); /* تصغير الشعار قليلاً عند النقر */
+    opacity: 0.8; /* تقليل الشفافية أكثر */
+}
+
+main {
+    padding: 20px;
+    flex: 1; /* لجعل المحتوى الرئيسي يمتد لملء المساحة المتاحة */
+}
+
+button {
+    background-color: #E91E63; /* وردي غامق */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: transform 0.1s ease, opacity 0.1s ease; /* إضافة انتقال سلس */
+}
+
+button:hover {
+    background-color: #C2185B; /* وردي أغمق */
+    transform: scale(1.05); /* تكبير الزر قليلاً عند التمرير */
+}
+
+button:active {
+    transform: scale(0.98); /* تصغير الزر قليلاً عند النقر */
+    opacity: 0.9; /* تقليل الشفافية قليلاً */
+}
+
+.hidden {
+    display: none;
+}
+
+footer {
+    background-color: #FF80AB; /* وردي متوسط */
+    padding: 10px;
+    color: white;
+    text-align: center;
+    position: relative; /* تغيير من fixed إلى relative */
+    width: 100%;
+    margin-top: auto; /* لجعل الـ footer يلتصق بالأسفل */
+}
+
+audio {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+#feedback {
+    font-size: 20px;
+    margin-top: 20px;
+    color: #E91E63; /* وردي غامق */
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* خلفية شبه شفافة */
+    border-radius: 5px;
+    display: inline-block;
+    position: fixed; /* لجعلها تظهر في مكان ثابت */
+    bottom: 80px; /* تحديد المسافة من الأسفل */
+    left: 50%; /* توسيط العنصر */
+    transform: translateX(-50%); /* توسيط العنصر */
+    z-index: 1000; /* التأكد من ظهورها فوق العناصر الأخرى */
+}
+
+/* تنسيق الأزرار الجديدة */
+.action-buttons {
+    position: absolute; /* وضع الأزرار في الزاوية اليسرى العليا */
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px; /* مسافة بين الأزرار */
+}
+
+.action-buttons button {
+    background-color: #FF80AB; /* وردي متوسط */
+    color: white;
+    font-size: 16px; /* حجم الخط */
+    padding: 10px 20px; /* حجم الزر */
+    border-radius: 5px; /* انحناء الزوايا */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* إضافة انتقال سلس */
+}
+
+.action-buttons button:hover {
+    background-color: #E91E63; /* وردي غامق */
+    transform: scale(1.05); /* تكبير الزر قليلاً عند التمرير */
+}
+
+.action-buttons button:active {
+    transform: scale(0.95); /* تصغير الزر قليلاً عند النقر */
+}
+
+/* زيادة حجم الكلمة في التحدي */
+#challenge-text {
+    font-size: 48px; /* حجم كبير للكلمة */
+    color: #E91E63; /* وردي غامق */
+    margin-top: 20px;
+    font-weight: bold; /* جعل الكلمة غامقة */
+    transition: color 0.3s ease, transform 0.3s ease; /* إضافة انتقال سلس */
+}
+
+#challenge-text:hover {
+    color: #C2185B; /* تغيير اللون عند التمرير */
+    transform: scale(1.05); /* تكبير النص قليلاً عند التمرير */
+}
+
+/* تأثير عند التمرير على نص المستوى */
+#challenge-title {
+    font-size: 32px; /* زيادة حجم النص */
+    color: #E91E63; /* وردي غامق */
+    margin-top: 20px;
+    transition: color 0.3s ease, transform 0.3s ease; /* إضافة انتقال سلس */
+}
+
+#challenge-title:hover {
+    color: #C2185B; /* تغيير اللون عند التمرير */
+    transform: scale(1.05); /* تكبير النص قليلاً عند التمرير */
+}
+
+/* تأثير اهتزاز خفيف عند النقر */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    50% { transform: translateX(2px); }
+    75% { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
+
+button:active, img:active, a:active {
+    animation: shake 0.2s ease; /* تطبيق تأثير الاهتزاز */
+}
+
+/* تأثير تغيير لون خفيف عند النقر */
+button:active {
+    background-color: #C2185B; /* تغيير لون الزر عند النقر */
+}
+
+img:active {
+    filter: brightness(90%); /* تقليل سطوع الصورة عند النقر */
+}
+
+a:active {
+    color: #FF4081; /* تغيير لون النص عند النقر */
+}
+
+/* تنسيق قسم الصور عن الدراسة */
+#study-images {
+    margin-top: 30px;
+}
+
+#study-images h2 {
+    font-size: 24px;
+    color: #E91E63;
+}
+
+.image-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.image-container img {
+    width: 30%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.image-container img:hover {
+    transform: scale(1.05); /* تكبير الصورة قليلاً عند التمرير */
+}
+
+/* تنسيق زر إعادة النطق */
+#replay-button {
+    background-color: #FF80AB; /* وردي متوسط */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: transform 0.1s ease, opacity 0.1s ease; /* إضافة انتقال سلس */
+}
+
+#replay-button:hover {
+    background-color: #E91E63; /* وردي أغمق */
+    transform: scale(1.05); /* تكبير الزر قليلاً عند التمرير */
+}
+
+#replay-button:active {
+    transform: scale(0.98); /* تصغير الزر قليلاً عند النقر */
+    opacity: 0.9; /* تقليل الشفافية قليلاً */
+}
