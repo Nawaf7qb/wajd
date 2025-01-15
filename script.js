@@ -128,12 +128,16 @@ async function toggleRecording() {
 function updateButtonText() {
     const recordButton = document.getElementById("record-button");
     const stopRecordButton = document.getElementById("stop-record-button");
+    const replayButton = document.getElementById("replay-button");
+
     if (isRecording) {
         recordButton.classList.add("hidden"); // إخفاء زر "سجّل صوتك"
         stopRecordButton.classList.remove("hidden"); // إظهار زر "إيقاف التسجيل"
+        replayButton.classList.add("hidden"); // إخفاء زر "إعادة نطق الكلمة"
     } else {
         recordButton.classList.remove("hidden"); // إظهار زر "سجّل صوتك"
         stopRecordButton.classList.add("hidden"); // إخفاء زر "إيقاف التسجيل"
+        replayButton.classList.remove("hidden"); // إظهار زر "إعادة نطق الكلمة"
     }
 }
 
@@ -146,6 +150,10 @@ async function startRecordingAndAnalysis() {
             stream.getTracks().forEach(track => track.stop()); // إيقاف تدفق الميكروفون الحالي
         }
         audioChunks = []; // إعادة تهيئة المصفوفة لتخزين القطع الصوتية
+
+        // إخفاء زر إعادة النطق عند بدء التسجيل
+        const replayButton = document.getElementById("replay-button");
+        replayButton.classList.add("hidden");
 
         // طلب إذن الميكروفون
         console.log("جاري طلب إذن استخدام الميكروفون...");
@@ -239,6 +247,10 @@ function stopRecording() {
         recognition.stop(); // إيقاف التعرف على الكلام
         isRecording = false; // تحديث حالة التسجيل
         updateButtonText(); // تحديث نص الزر
+
+        // إظهار زر إعادة النطق عند إيقاف التسجيل
+        showReplayButton();
+
         console.log("تم إيقاف التسجيل!");
     }
 }
