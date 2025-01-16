@@ -16,11 +16,18 @@ header {
     color: white;
 }
 
+header .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* المسافة بين الشعارات */
+}
+
 header .logo {
-    width: 100px;
+    width: 100px; /* حجم الشعارات */
     height: auto;
-    transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease; /* إضافة انتقال سلس */
-    cursor: pointer; /* تغيير المؤشر إلى يد عند التمرير */
+    transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
 }
 
 header .logo:hover {
@@ -67,7 +74,7 @@ button:active {
 
 footer {
     background-color: #FF80AB; /* وردي متوسط */
-    padding: 10px;
+    padding: 20px;
     color: white;
     text-align: center;
     position: relative; /* تغيير من fixed إلى relative */
@@ -75,25 +82,38 @@ footer {
     margin-top: auto; /* لجعل الـ footer يلتصق بالأسفل */
 }
 
-audio {
-    margin-top: 20px;
-    width: 100%;
-    max-width: 400px;
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-#feedback {
-    font-size: 20px;
-    margin-top: 20px;
-    color: #E91E63; /* وردي غامق */
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.8); /* خلفية شبه شفافة */
-    border-radius: 5px;
-    display: inline-block;
-    position: fixed; /* لجعلها تظهر في مكان ثابت */
-    bottom: 80px; /* تحديد المسافة من الأسفل */
-    left: 50%; /* توسيط العنصر */
-    transform: translateX(-50%); /* توسيط العنصر */
-    z-index: 1000; /* التأكد من ظهورها فوق العناصر الأخرى */
+.developer-info {
+    text-align: right;
+}
+
+.social-media {
+    display: flex;
+    gap: 15px; /* المسافة بين الشعارات */
+}
+
+.social-media .social-icon {
+    width: 40px; /* حجم الشعارات */
+    height: 40px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)); /* إضافة ظل خفيف */
+}
+
+.social-media .social-icon:hover {
+    transform: scale(1.2); /* تكبير الشعار عند التمرير */
+    opacity: 0.9; /* تقليل الشفافية قليلاً */
+}
+
+.social-media .social-icon:active {
+    transform: scale(0.95); /* تصغير الشعار عند النقر */
 }
 
 /* تنسيق الأزرار الجديدة */
