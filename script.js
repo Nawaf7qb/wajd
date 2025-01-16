@@ -52,6 +52,16 @@ function isPronunciationCorrect(spokenText, correctText) {
     return accuracy >= 80; // يعتبر النطق صحيحًا إذا كانت الدقة 80% أو أكثر
 }
 
+// دالة لتغيير لون النص بناءً على الإجابة
+function updateFeedbackColor(isCorrect) {
+    const feedbackElement = document.getElementById("feedback");
+    if (isCorrect) {
+        feedbackElement.style.color = "#4CAF50"; // أخضر للإجابة الصحيحة
+    } else {
+        feedbackElement.style.color = "#FF5252"; // أحمر للإجابة الخاطئة
+    }
+}
+
 // دالة لتحويل النص إلى كلام (Text-to-Speech) مع التشكيل
 function speakText(text) {
     const utterance = new SpeechSynthesisUtterance(text);
@@ -178,7 +188,7 @@ async function startRecordingAndAnalysis() {
         recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = "ar-SA"; // تعيين اللغة إلى العربية
         recognition.interimResults = false; // نتائج نهائية فقط
-        recognition.maxAlternatives = 3; // نتيجة واحدة فقط
+        recognition.maxAlternatives = 3; // زيادة عدد النتائج البديلة
         recognition.continuous = false; // التعرف على كلمة واحدة فقط
         recognition.interimResults = false; // نتائج نهائية فقط
 
@@ -190,20 +200,22 @@ async function startRecordingAndAnalysis() {
             // مقارنة النطق المسجل بالكلمة الصحيحة مع مراعاة نسبة 80%
             if (isPronunciationCorrect(spokenText, correctWord)) {
                 document.getElementById("feedback").innerText = "القراءة صحيحة 🎉";
-
-                // إضافة تأخير قبل إيقاف التسجيل لإعطاء الوقت الكافي لإنهاء الكلمة
-                setTimeout(() => {
-                    stopRecording(); // إيقاف التسجيل بعد التأخير
-                }, 500); // تأخير 500 مللي ثانية (نصف ثانية)
-
-                // نطق الكلمة الصحيحة بصوت عالٍ
-                speakText(correctWord);
-
-                // إظهار زر إعادة النطق بعد ظهور النتيجة
-                showReplayButton();
+                updateFeedbackColor(true); // تغيير لون النص إلى الأخضر
             } else {
                 document.getElementById("feedback").innerText = "القراءة خاطئة ❌";
+                updateFeedbackColor(false); // تغيير لون النص إلى الأحمر
             }
+
+            // إضافة تأخير قبل إيقاف التسجيل لإعطاء الوقت الكافي لإنهاء الكلمة
+            setTimeout(() => {
+                stopRecording(); // إيقاف التسجيل بعد التأخير
+            }, 500); // تأخير 500 مللي ثانية (نصف ثانية)
+
+            // نطق الكلمة الصحيحة بصوت عالٍ
+            speakText(correctWord);
+
+            // إظهار زر إعادة النطق بعد ظهور النتيجة
+            showReplayButton();
         };
 
         recognition.onerror = (event) => {

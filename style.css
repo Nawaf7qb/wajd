@@ -129,7 +129,7 @@ audio {
     color: #E91E63; /* وردي غامق */
     margin-top: 20px;
     font-weight: bold; /* جعل الكلمة غامقة */
-    transition: color 0.3s ease, transform 0.3s ease; /* إضافة انتقال سلس */
+    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease; /* إضافة transition للون الخلفية */
     padding: 20px; /* إضافة padding للإطار */
     background-color: #E0F7FA; /* لون سماوي فاتح */
     border: 3px solid #00BCD4; /* إطار سماوي */
