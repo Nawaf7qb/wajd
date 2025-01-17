@@ -39,6 +39,11 @@ function isPronunciationCorrect(spokenText, correctText) {
     const cleanedSpokenText = removeTashkeel(spokenText).trim();
     const cleanedCorrectText = removeTashkeel(correctText).trim();
 
+    // إذا كانت الكلمة قصيرة (مثل "كره")، نستخدم مقارنة مباشرة
+    if (cleanedCorrectText.length <= 3) {
+        return cleanedSpokenText === cleanedCorrectText;
+    }
+
     let correctChars = 0;
     const minLength = Math.min(cleanedSpokenText.length, cleanedCorrectText.length);
 
@@ -93,7 +98,7 @@ window.onload = function () {
     if (selectedLevel) {
         startChallenge(selectedLevel);
     } else {
-        window.location.href = "index.html"; // إذا لم يتم اختيار مستوى، العودة للصفحة الرئيسية
+        window.location.href = "Reading_Time.html"; // إذا لم يتم اختيار مستوى، العودة للصفحة الرئيسية
     }
 };
 
