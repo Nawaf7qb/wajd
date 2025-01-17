@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وقت القراءة - مدارس إمجاد قرطبة</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="https://e.ataa.sa" target="_blank">
+                <img src="https://i.postimg.cc/y8rZCwrh/image-removebg-preview-5.png" alt="شعار المدرسة" class="logo">
+            </a>
+        </div>
+        <h1>وقت القراءة</h1>
+    </header>
+
+    <main>
+        <section id="level-selection">
+            <h2>اختر المستوى:</h2>
+            <button onclick="goToChallenge(1)">المستوى الأول</button>
+            <button onclick="goToChallenge(2)">المستوى الثاني</button>
+            <button onclick="goToChallenge(3)">المستوى الثالث</button>
+        </section>
+
+        <!-- شرح الموقع والفيديو في الأعلى -->
+        <section id="site-description">
+            <h2>شرح الموقع</h2>
+            <p>هذا الموقع مخصص لوقت القراءة في مدارس إمجاد قرطبة. يمكنك اختيار مستوى التحدي وبدء القراءة!</p>
+            <p class="video-instruction">شاهد الفيديو لمعرفة المزيد عن وقت القراءة!</p>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/t01p9VH7h0o" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <!-- قسم "شاهد التحدي" مع الصور -->
+        <section id="challenge-view">
+            <h2>شاهد التحدي</h2>
+            <div class="image-container">
+                <img src="https://i.postimg.cc/0Njwvhjd/1.png" alt="صورة دراسة 1">
+                <img src="https://i.postimg.cc/YSPmC8mc/3.png" alt="صورة دراسة 3">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <!-- اليسار: الفيسبوك وتويتر -->
+            <div class="social-media left">
+                <a href="https://www.youtube.com/@aqs_school" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="فيسبوك" class="social-icon">
+                </a>
+                <a href="https://www.instagram.com/amjadgurtoba/" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="تويتر" class="social-icon">
+                </a>
+            </div>
+
+            <!-- الوسط: النص -->
+            <div class="developer-info">
+                <p>تم التطوير بواسطة وجد الحقباني, مدارس إمجاد قرطبة</p>
+            </div>
+
+            <!-- اليمين: اليوتيوب والإنستغرام -->
+            <div class="social-media right">
+                <a href="https://x.com/AQS_School" target="_blank">
+                    <img src="https://i.postimg.cc/90fDdgRQ/image-removebg-preview-1.png" alt="إنستغرام" class="social-icon">
+                </a>
+                <a href="https://www.facebook.com/AQS.School?locale=ar_AR" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="يوتيوب" class="social-icon">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // حذف بيانات localStorage عند تحميل الصفحة الرئيسية
+        localStorage.removeItem("selectedLevel");
+
+        function goToChallenge(level) {
+            // حفظ المستوى المختار في localStorage
+            localStorage.setItem("selectedLevel", level);
+            // الانتقال إلى صفحة التحدي
+            window.location.href = "levels";  // تم تغيير الرابط هنا
+        }
+    </script>
+</body>
+</html>
