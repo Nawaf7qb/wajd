@@ -68,6 +68,7 @@ function speakText(text) {
     utterance.lang = "ar-SA"; // تعيين اللغة إلى العربية السعودية
     utterance.rate = 1; // سرعة النطق (1 = سرعة عادية)
     utterance.pitch = 1; // درجة الصوت (1 = درجة عادية)
+    speechSynthesis.cancel(); // إلغاء أي نطق سابق
     speechSynthesis.speak(utterance); // بدء النطق
 }
 
