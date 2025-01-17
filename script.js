@@ -33,23 +33,10 @@ function removeTashkeel(text) {
     return text.replace(/[\u064B-\u065F\u0610-\u061A]/g, ''); // إزالة الحركات والتنوين
 }
 
-// دالة لمقارنة النطق المسجل بالكلمة الصحيحة مع مراعاة نسبة 80%
+// دالة لمقارنة النطق المسجل بالكلمة الصحيحة مع مراعاة نسبة 100%
 function isPronunciationCorrect(spokenText, correctText) {
-    // إزالة التشكيل والتنوين من النص المسجل والنص الصحيح
-    const cleanedSpokenText = removeTashkeel(spokenText).trim();
-    const cleanedCorrectText = removeTashkeel(correctText).trim();
-
-    let correctChars = 0;
-    const minLength = Math.min(cleanedSpokenText.length, cleanedCorrectText.length);
-
-    for (let i = 0; i < minLength; i++) {
-        if (cleanedSpokenText[i] === cleanedCorrectText[i]) {
-            correctChars++;
-        }
-    }
-
-    const accuracy = (correctChars / cleanedCorrectText.length) * 100;
-    return accuracy >= 80; // يعتبر النطق صحيحًا إذا كانت الدقة 80% أو أكثر
+    // مقارنة النص المسجل بالنص الصحيح مع الحركات
+    return spokenText.trim() === correctText.trim(); // يعتبر النطق صحيحًا فقط إذا كان مطابقًا تمامًا
 }
 
 // دالة لتغيير لون النص بناءً على الإجابة
@@ -197,7 +184,7 @@ async function startRecordingAndAnalysis() {
             const spokenText = event.results[0][0].transcript; // النص الذي نطقه الطالب
             console.log("النطق المسجل:", spokenText);
 
-            // مقارنة النطق المسجل بالكلمة الصحيحة مع مراعاة نسبة 80%
+            // مقارنة النطق المسجل بالكلمة الصحيحة مع مراعاة نسبة 100%
             if (isPronunciationCorrect(spokenText, correctWord)) {
                 document.getElementById("feedback").innerText = "القراءة صحيحة 🎉";
                 updateFeedbackColor(true); // تغيير لون النص إلى الأخضر
