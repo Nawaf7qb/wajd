@@ -1,3 +1,4 @@
+// تعريف المتغيرات
 let wordsLevel1 = [
     "قَمَرٌ", "بَابٌ", "شَمْسٌ", "عَيْنٌ", "فَمٌ", "يَدٌ", "رِجْلٌ", "رَأْسٌ", "شَجَرٌ", "بَحْرٌ",
     "جَبَلٌ", "وَرْدٌ", "نَهْرٌ", "بَيْتٌ", "حِصَانٌ", "قِطٌّ", "زَهْرٌ", "كُرَةٌ", "أُذُنٌ", "شَعْرٌ",
@@ -19,22 +20,26 @@ let sentencesLevel3 = [
     "الْفَمُ يَتَكَلَّمُ", "الْيَدُ تَعْمَلُ", "الرِّجْلُ تَمْشِي", "الرَّأْسُ يَفْكُرُ", "الشَّعْرُ نَاعِمٌ"
 ];
 
-let correctWord = "";
+let correctWord = ""; // الكلمة الصحيحة للتحدي الحالي
 let mediaRecorder;
 let audioChunks = [];
 let recognition;
-let isRecording = false;
-let stream;
-let audioContext;
+let isRecording = false; // متغير لتتبع حالة التسجيل
+let stream; // متغير لتخزين تدفق الميكروفون
+let audioContext; // متغير لتخزين AudioContext
 
+// دالة لإزالة الحركات والتنوين من النص
 function removeTashkeel(text) {
-    return text.replace(/[\u064B-\u065F\u0610-\u061A]/g, '');
+    return text.replace(/[\u064B-\u065F\u0610-\u061A]/g, ''); // إزالة الحركات والتنوين
 }
 
+// دالة لمقارنة النطق المسجل بالكلمة الصحيحة مع مراعاة نسبة 80%
 function isPronunciationCorrect(spokenText, correctText) {
+    // إزالة التشكيل والتنوين من النص المسجل والنص الصحيح
     const cleanedSpokenText = removeTashkeel(spokenText).trim();
     const cleanedCorrectText = removeTashkeel(correctText).trim();
 
+    // إذا كانت الكلمة قصيرة (مثل "كره")، نستخدم مقارنة مباشرة
     if (cleanedCorrectText.length <= 3) {
         return cleanedSpokenText === cleanedCorrectText;
     }
@@ -49,49 +54,55 @@ function isPronunciationCorrect(spokenText, correctText) {
     }
 
     const accuracy = (correctChars / cleanedCorrectText.length) * 100;
-    return accuracy >= 80;
+    return accuracy >= 80; // يعتبر النطق صحيحًا إذا كانت الدقة 80% أو أكثر
 }
 
+// دالة لتغيير لون النص بناءً على الإجابة
 function updateFeedbackColor(isCorrect) {
     const feedbackElement = document.getElementById("feedback");
     if (isCorrect) {
-        feedbackElement.style.color = "#4CAF50";
+        feedbackElement.style.color = "#4CAF50"; // أخضر للإجابة الصحيحة
     } else {
-        feedbackElement.style.color = "#FF5252";
+        feedbackElement.style.color = "#FF5252"; // أحمر للإجابة الخاطئة
     }
 }
 
+// دالة لتحويل النص إلى كلام (Text-to-Speech) مع التشكيل
 function speakText(text) {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "ar-SA";
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    speechSynthesis.speak(utterance);
+    utterance.lang = "ar-SA"; // تعيين اللغة إلى العربية السعودية
+    utterance.rate = 1; // سرعة النطق (1 = سرعة عادية)
+    utterance.pitch = 1; // درجة الصوت (1 = درجة عادية)
+    speechSynthesis.speak(utterance); // بدء النطق
 }
 
+// دالة لإعادة نطق الكلمة مع التشكيل
 function replayWord() {
     if (correctWord) {
-        speakText(correctWord);
+        speakText(correctWord); // نطق الكلمة الصحيحة مع التشكيل
     } else {
         console.log("لا توجد كلمة صحيحة معروضة حاليًا.");
     }
 }
 
+// دالة لإظهار زر إعادة النطق
 function showReplayButton() {
     const replayButton = document.getElementById("replay-button");
-    replayButton.classList.remove("hidden");
+    replayButton.classList.remove("hidden"); // إظهار الزر
 }
 
+// عند تحميل الصفحة
 window.onload = function () {
     console.log("تم تحميل الصفحة بنجاح!");
     const selectedLevel = localStorage.getItem("selectedLevel");
     if (selectedLevel) {
         startChallenge(selectedLevel);
     } else {
-        window.location.href = "/";
+        window.location.href = "/"; // إذا لم يتم اختيار مستوى، العودة للصفحة الرئيسية
     }
 };
 
+// بدء التحدي
 function startChallenge(level) {
     console.log(`بدء التحدي للمستوى ${level}`);
     let challengeText = "";
@@ -103,54 +114,64 @@ function startChallenge(level) {
         challengeText = sentencesLevel3[Math.floor(Math.random() * sentencesLevel3.length)];
     }
 
-    correctWord = challengeText;
+    correctWord = challengeText; // حفظ الكلمة الصحيحة
     document.getElementById("challenge-title").innerText = `المستوى ${level}`;
     document.getElementById("challenge-text").innerText = challengeText;
+
+    // لا يتم نطق الكلمة هنا، بل بعد أن ينطق الطالب الكلمة السابقة
 }
 
+// تبديل بين بدء وإيقاف التسجيل
 async function toggleRecording() {
     if (isRecording) {
         stopRecording();
     } else {
         await startRecordingAndAnalysis();
     }
-    isRecording = !isRecording;
-    updateButtonText();
+    isRecording = !isRecording; // تبديل حالة التسجيل
+    updateButtonText(); // تحديث نص الزر
 }
 
+// تحديث نص الزر بناءً على حالة التسجيل
 function updateButtonText() {
     const recordButton = document.getElementById("record-button");
     const stopRecordButton = document.getElementById("stop-record-button");
     const replayButton = document.getElementById("replay-button");
 
     if (isRecording) {
-        recordButton.classList.add("hidden");
-        stopRecordButton.classList.remove("hidden");
-        replayButton.classList.add("hidden");
+        recordButton.classList.add("hidden"); // إخفاء زر "سجّل صوتك"
+        stopRecordButton.classList.remove("hidden"); // إظهار زر "إيقاف التسجيل"
+        replayButton.classList.add("hidden"); // إخفاء زر "إعادة نطق الكلمة"
     } else {
-        recordButton.classList.remove("hidden");
-        stopRecordButton.classList.add("hidden");
-        replayButton.classList.remove("hidden");
+        recordButton.classList.remove("hidden"); // إظهار زر "سجّل صوتك"
+        stopRecordButton.classList.add("hidden"); // إخفاء زر "إيقاف التسجيل"
+        replayButton.classList.remove("hidden"); // إظهار زر "إعادة نطق الكلمة"
     }
 }
 
+// بدء التسجيل والتحليل
 async function startRecordingAndAnalysis() {
     console.log("بدء التسجيل...");
     try {
+        // إعادة تهيئة المتغيرات عند كل تسجيل جديد
         if (stream) {
-            stream.getTracks().forEach(track => track.stop());
+            stream.getTracks().forEach(track => track.stop()); // إيقاف تدفق الميكروفون الحالي
         }
-        audioChunks = [];
+        audioChunks = []; // إعادة تهيئة المصفوفة لتخزين القطع الصوتية
 
+        // إخفاء زر إعادة النطق عند بدء التسجيل
         const replayButton = document.getElementById("replay-button");
         replayButton.classList.add("hidden");
 
+        // طلب إذن الميكروفون
         console.log("جاري طلب إذن استخدام الميكروفون...");
         stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         console.log("تم منح الإذن بنجاح!");
 
+        // إنشاء كائن AudioContext لتحليل الصوت
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
+        // إنشاء كائن MediaRecorder لتسجيل الصوت
         mediaRecorder = new MediaRecorder(stream);
 
         mediaRecorder.ondataavailable = (event) => {
@@ -165,35 +186,43 @@ async function startRecordingAndAnalysis() {
             audioPlayback.classList.remove("hidden");
         };
 
+        // بدء التسجيل
         mediaRecorder.start();
 
+        // إنشاء كائن SpeechRecognition للتعرف على الكلام
         recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.lang = "ar-SA";
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 3;
-        recognition.continuous = false;
-        recognition.interimResults = false;
+        recognition.lang = "ar-SA"; // تعيين اللغة إلى العربية
+        recognition.interimResults = false; // نتائج نهائية فقط
+        recognition.maxAlternatives = 3; // زيادة عدد النتائج البديلة
+        recognition.continuous = false; // التعرف على كلمة واحدة فقط
+        recognition.interimResults = false; // نتائج نهائية فقط
 
+        // عند الحصول على نتيجة التعرف على الكلام
         recognition.onresult = (event) => {
-            const spokenText = event.results[0][0].transcript;
+            const spokenText = event.results[0][0].transcript; // النص الذي نطقه الطالب
             console.log("النطق المسجل:", spokenText);
 
+            // مقارنة النطق المسجل بالكلمة الصحيحة مع مراعاة نسبة 80%
             if (isPronunciationCorrect(spokenText, correctWord)) {
                 document.getElementById("feedback").innerText = "القراءة صحيحة 🎉";
-                updateFeedbackColor(true);
+                updateFeedbackColor(true); // تغيير لون النص إلى الأخضر
 
+                // إضافة تأخير 250 مللي ثانية قبل إيقاف التسجيل إذا كانت الإجابة صحيحة
                 setTimeout(() => {
-                    stopRecording();
-                }, 250);
+                    stopRecording(); // إيقاف التسجيل بعد التأخير
+                }, 250); // تأخير 250 مللي ثانية (ربع ثانية)
             } else {
                 document.getElementById("feedback").innerText = "القراءة خاطئة ❌";
-                updateFeedbackColor(false);
+                updateFeedbackColor(false); // تغيير لون النص إلى الأحمر
 
+                // إيقاف التسجيل فورًا إذا كانت الإجابة خاطئة
                 stopRecording();
             }
 
+            // نطق الكلمة الصحيحة بصوت عالٍ
             speakText(correctWord);
 
+            // إظهار زر إعادة النطق بعد ظهور النتيجة
             showReplayButton();
         };
 
@@ -206,6 +235,7 @@ async function startRecordingAndAnalysis() {
             console.log("انتهى التعرف على الكلام.");
         };
 
+        // بدء التعرف على الكلام
         recognition.start();
 
     } catch (error) {
@@ -220,19 +250,22 @@ async function startRecordingAndAnalysis() {
     }
 }
 
+// إيقاف التسجيل يدويًا أو تلقائيًا
 function stopRecording() {
     if (mediaRecorder && mediaRecorder.state === "recording") {
         mediaRecorder.stop();
-        recognition.stop();
-        isRecording = false;
-        updateButtonText();
+        recognition.stop(); // إيقاف التعرف على الكلام
+        isRecording = false; // تحديث حالة التسجيل
+        updateButtonText(); // تحديث نص الزر
 
+        // إظهار زر إعادة النطق عند إيقاف التسجيل
         showReplayButton();
 
         console.log("تم إيقاف التسجيل!");
     }
 }
 
+// دالة لتجديد الكلمة
 function refreshPage() {
-    window.location.reload();
+    window.location.reload(); // إعادة تحميل الصفحة لتجديد الكلمة
 }
