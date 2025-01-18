@@ -1,17 +1,17 @@
 body {
     font-family: 'Nunito', sans-serif;
-    background-color: #F8BBD0; /* وردي فاتح */
+    background-color: #F8BBD0;
     color: #333;
     text-align: center;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* لجعل الصفحة تمتد على الأقل لارتفاع الشاشة */
+    min-height: 100vh;
 }
 
 header {
-    background-color: #FF80AB; /* وردي متوسط */
+    background-color: #FF80AB;
     padding: 20px;
     color: white;
 }
@@ -20,34 +20,34 @@ header .logo-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px; /* المسافة بين الشعارات */
+    gap: 20px;
 }
 
 header .logo {
-    width: 100px; /* حجم الشعارات */
+    width: 100px;
     height: auto;
     transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
     cursor: pointer;
 }
 
 header .logo:hover {
-    transform: scale(1.1); /* تكبير الشعار عند التمرير */
-    opacity: 0.9; /* تقليل الشفافية قليلاً */
-    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3)); /* إضافة ظل خفيف */
+    transform: scale(1.1);
+    opacity: 0.9;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3));
 }
 
 header .logo:active {
-    transform: scale(0.95); /* تصغير الشعار قليلاً عند النقر */
-    opacity: 0.8; /* تقليل الشفافية أكثر */
+    transform: scale(0.95);
+    opacity: 0.8;
 }
 
 main {
     padding: 20px;
-    flex: 1; /* لجعل المحتوى الرئيسي يمتد لملء المساحة المتاحة */
+    flex: 1;
 }
 
 button {
-    background-color: #E91E63; /* وردي غامق */
+    background-color: #E91E63;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -55,17 +55,17 @@ button {
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
-    transition: transform 0.1s ease, opacity 0.1s ease; /* إضافة انتقال سلس */
+    transition: transform 0.1s ease, opacity 0.1s ease;
 }
 
 button:hover {
-    background-color: #C2185B; /* وردي أغمق */
-    transform: scale(1.05); /* تكبير الزر قليلاً عند التمرير */
+    background-color: #C2185B;
+    transform: scale(1.05);
 }
 
 button:active {
-    transform: scale(0.98); /* تصغير الزر قليلاً عند النقر */
-    opacity: 0.9; /* تقليل الشفافية قليلاً */
+    transform: scale(0.98);
+    opacity: 0.9;
 }
 
 .hidden {
@@ -73,13 +73,13 @@ button:active {
 }
 
 footer {
-    background-color: #FF80AB; /* وردي متوسط */
+    background-color: #FF80AB;
     padding: 20px;
     color: white;
     text-align: center;
-    position: relative; /* تغيير من fixed إلى relative */
+    position: relative;
     width: 100%;
-    margin-top: auto; /* لجعل الـ footer يلتصق بالأسفل */
+    margin-top: auto;
 }
 
 .footer-content {
@@ -97,88 +97,84 @@ footer {
 
 .social-media {
     display: flex;
-    gap: 15px; /* المسافة بين الشعارات */
+    gap: 15px;
 }
 
 .social-media .social-icon {
-    width: 40px; /* حجم الشعارات */
+    width: 40px;
     height: 40px;
     transition: transform 0.3s ease, opacity 0.3s ease;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)); /* إضافة ظل خفيف */
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .social-media .social-icon:hover {
-    transform: scale(1.2); /* تكبير الشعار عند التمرير */
-    opacity: 0.9; /* تقليل الشفافية قليلاً */
+    transform: scale(1.2);
+    opacity: 0.9;
 }
 
 .social-media .social-icon:active {
-    transform: scale(0.95); /* تصغير الشعار عند النقر */
+    transform: scale(0.95);
 }
 
-/* تنسيق الأزرار الجديدة */
 .action-buttons {
-    position: absolute; /* وضع الأزرار في الزاوية اليسرى العليا */
+    position: absolute;
     top: 20px;
     left: 20px;
     display: flex;
-    gap: 10px; /* مسافة بين الأزرار */
+    gap: 10px;
 }
 
 .action-buttons button {
-    background-color: #FF80AB; /* وردي متوسط */
+    background-color: #FF80AB;
     color: white;
-    font-size: 16px; /* حجم الخط */
-    padding: 10px 20px; /* حجم الزر */
-    border-radius: 5px; /* انحناء الزوايا */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* إضافة انتقال سلس */
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .action-buttons button:hover {
-    background-color: #E91E63; /* وردي أغمق */
-    transform: scale(1.05); /* تكبير الزر قليلاً عند التمرير */
+    background-color: #E91E63;
+    transform: scale(1.05);
 }
 
 .action-buttons button:active {
-    transform: scale(0.95); /* تصغير الزر قليلاً عند النقر */
+    transform: scale(0.95);
 }
 
-/* زيادة حجم الكلمة في التحدي */
 #challenge-text {
-    font-size: 48px; /* حجم كبير للكلمة */
-    color: #E91E63; /* وردي غامق */
+    font-size: 48px;
+    color: #E91E63;
     margin-top: 20px;
-    font-weight: bold; /* جعل الكلمة غامقة */
-    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease; /* إضافة transition للون الخلفية */
-    padding: 20px; /* إضافة padding للإطار */
-    background-color: #E0F7FA; /* لون سماوي فاتح */
-    border: 3px solid #00BCD4; /* إطار سماوي */
-    border-radius: 15px; /* زوايا مدورة */
-    display: inline-block; /* لجعل الإطار يتناسب مع حجم النص */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* ظل خفيف */
+    font-weight: bold;
+    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    padding: 20px;
+    background-color: #E0F7FA;
+    border: 3px solid #00BCD4;
+    border-radius: 15px;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #challenge-text:hover {
-    color: #C2185B; /* تغيير اللون عند التمرير */
-    transform: scale(1.05); /* تكبير النص قليلاً عند التمرير */
-    background-color: #B2EBF2; /* تغيير لون الخلفية عند التمرير */
-    border-color: #0097A7; /* تغيير لون الإطار عند التمرير */
+    color: #C2185B;
+    transform: scale(1.05);
+    background-color: #B2EBF2;
+    border-color: #0097A7;
 }
 
-/* تأثير عند التمرير على نص المستوى */
 #challenge-title {
-    font-size: 32px; /* زيادة حجم النص */
-    color: #E91E63; /* وردي غامق */
+    font-size: 32px;
+    color: #E91E63;
     margin-top: 20px;
-    transition: color 0.3s ease, transform 0.3s ease; /* إضافة انتقال سلس */
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 #challenge-title:hover {
-    color: #C2185B; /* تغيير اللون عند التمرير */
-    transform: scale(1.05); /* تكبير النص قليلاً عند التمرير */
+    color: #C2185B;
+    transform: scale(1.05);
 }
 
-/* تأثير اهتزاز خفيف عند النقر */
 @keyframes shake {
     0% { transform: translateX(0); }
     25% { transform: translateX(-2px); }
@@ -188,23 +184,21 @@ footer {
 }
 
 button:active, img:active, a:active {
-    animation: shake 0.2s ease; /* تطبيق تأثير الاهتزاز */
+    animation: shake 0.2s ease;
 }
 
-/* تأثير تغيير لون خفيف عند النقر */
 button:active {
-    background-color: #C2185B; /* تغيير لون الزر عند النقر */
+    background-color: #C2185B;
 }
 
 img:active {
-    filter: brightness(90%); /* تقليل سطوع الصورة عند النقر */
+    filter: brightness(90%);
 }
 
 a:active {
-    color: #FF4081; /* تغيير لون النص عند النقر */
+    color: #FF4081;
 }
 
-/* تنسيق قسم شرح الموقع والفيديو */
 #site-description {
     margin-top: 30px;
 }
@@ -223,21 +217,19 @@ a:active {
 .video-container {
     position: relative;
     width: 100%;
-    max-width: 560px; /* عرض الفيديو */
-    margin: 20px auto; /* توسيط الفيديو */
-    border-radius: 10px; /* زوايا مدورة */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* ظل خفيف */
-    overflow: hidden; /* لإخفاء أي محتوى يخرج عن حدود الحاوية */
+    max-width: 560px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
 }
 
-/* تأثير عند التمرير على الفيديو */
 .video-container:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* زيادة الظل عند التمرير */
-    transform: scale(1.05); /* تكبير الفيديو قليلاً عند التمرير */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* إضافة انتقال سلس */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* تنسيق قسم "شاهد التحدي" مع الصور */
 #challenge-view {
     margin-top: 30px;
 }
@@ -251,57 +243,55 @@ a:active {
 }
 
 .image-container img {
-    width: 30%; /* تقليل عرض الصور إلى 30% */
-    max-width: 300px; /* تحديد أقصى عرض للصور */
+    width: 30%;
+    max-width: 300px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
 }
 
 .image-container img:hover {
-    transform: scale(1.05); /* تكبير الصورة قليلاً عند التمرير */
+    transform: scale(1.05);
 }
 
-/* تنسيق النص الجديد فوق زر "سجّل صوتك" */
 .reading-time-info {
-    margin-bottom: 20px; /* مسافة بين النص وزر التسجيل */
+    margin-bottom: 20px;
     padding: 15px;
-    background-color: transparent; /* إزالة الخلفية */
-    border: none; /* إزالة الإطار */
-    box-shadow: none; /* إزالة الظل */
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
 }
 
 .reading-time-info h3 {
     font-size: 24px;
-    color: #E91E63; /* لون وردي غامق */
+    color: #E91E63;
     margin-bottom: 10px;
 }
 
 .reading-time-info p {
     font-size: 20px;
-    color: #E91E63; /* لون وردي غامق */
+    color: #E91E63;
     font-weight: bold;
 }
 
-/* تكبير زر "سجّل صوتك" */
 #record-button, #stop-record-button, #replay-button {
-    font-size: 24px; /* زيادة حجم الخط */
-    padding: 15px 30px; /* زيادة حجم الزر */
-    margin-top: 20px; /* زيادة المسافة من الأعلى */
-    background-color: #E91E63; /* وردي غامق */
+    font-size: 24px;
+    padding: 15px 30px;
+    margin-top: 20px;
+    background-color: #E91E63;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: transform 0.1s ease, opacity 0.1s ease; /* إضافة انتقال سلس */
+    transition: transform 0.1s ease, opacity 0.1s ease;
 }
 
 #record-button:hover, #stop-record-button:hover, #replay-button:hover {
-    background-color: #C2185B; /* وردي أغمق */
-    transform: scale(1.05); /* تكبير الزر قليلاً عند التمرير */
+    background-color: #C2185B;
+    transform: scale(1.05);
 }
 
 #record-button:active, #stop-record-button:active, #replay-button:active {
-    transform: scale(0.98); /* تصغير الزر قليلاً عند النقر */
-    opacity: 0.9; /* تقليل الشفافية قليلاً */
+    transform: scale(0.98);
+    opacity: 0.9;
 }

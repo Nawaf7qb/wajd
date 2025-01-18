@@ -24,7 +24,6 @@
             <button onclick="goToChallenge(3)">المستوى الثالث</button>
         </section>
 
-        <!-- شرح الموقع والفيديو في الأعلى -->
         <section id="site-description">
             <h2>شرح الموقع</h2>
             <p>هذا الموقع مخصص لوقت القراءة في مدارس إمجاد قرطبة. يمكنك اختيار مستوى التحدي وبدء القراءة!</p>
@@ -34,7 +33,6 @@
             </div>
         </section>
 
-        <!-- قسم "شاهد التحدي" مع الصور -->
         <section id="challenge-view">
             <h2>شاهد التحدي</h2>
             <div class="image-container">
@@ -46,7 +44,6 @@
 
     <footer>
         <div class="footer-content">
-            <!-- اليسار: الفيسبوك وتويتر -->
             <div class="social-media left">
                 <a href="https://www.youtube.com/@aqs_school" target="_blank">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="فيسبوك" class="social-icon">
@@ -56,12 +53,10 @@
                 </a>
             </div>
 
-            <!-- الوسط: النص -->
             <div class="developer-info">
                 <p>تم التطوير بواسطة وجد الحقباني, مدارس إمجاد قرطبة</p>
             </div>
 
-            <!-- اليمين: اليوتيوب والإنستغرام -->
             <div class="social-media right">
                 <a href="https://x.com/AQS_School" target="_blank">
                     <img src="https://i.postimg.cc/90fDdgRQ/image-removebg-preview-1.png" alt="إنستغرام" class="social-icon">
@@ -74,14 +69,11 @@
     </footer>
 
     <script>
-        // حذف بيانات localStorage عند تحميل الصفحة الرئيسية
         localStorage.removeItem("selectedLevel");
 
         function goToChallenge(level) {
-            // حفظ المستوى المختار في localStorage
             localStorage.setItem("selectedLevel", level);
-            // الانتقال إلى صفحة التحدي
-            window.location.href = "levels";  // تم تغيير الرابط هنا
+            window.location.href = "levels";
         }
     </script>
 </body>
