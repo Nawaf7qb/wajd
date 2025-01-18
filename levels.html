@@ -15,7 +15,6 @@
     </header>
 
     <main>
-        <!-- الأزرار الجديدة في الزاوية اليسرى العليا -->
         <div class="action-buttons">
             <button onclick="refreshPage()">تجديد الكلمة</button>
             <button onclick="goToHomePage()">الرجوع إلى الصفحة الرئيسية</button>
@@ -23,23 +22,18 @@
 
         <section id="challenge-section">
             <h2 id="challenge-title"></h2>
-            <p id="challenge-text">كتاب</p> <!-- الكلمة المعروضة داخل إطار سماوي -->
-
-            <!-- النص الجديد فوق زر "سجّل صوتك" -->
+            <p id="challenge-text">كتاب</p>
             <div class="reading-time-info">
-
             <button id="record-button" onclick="toggleRecording()">سجّل صوتك</button>
             <button id="stop-record-button" onclick="stopRecording()" class="hidden">إيقاف التسجيل</button>
             <p id="feedback"></p>
             <audio id="audio-playback" controls class="hidden"></audio>
-            <!-- زر إعادة النطق (مخفي في البداية) -->
             <button id="replay-button" onclick="replayWord()" class="hidden">إعادة نطق الكلمة</button>
         </section>
     </main>
 
     <footer>
         <div class="footer-content">
-            <!-- اليسار: الفيسبوك وتويتر -->
             <div class="social-media left">
                 <a href="https://www.youtube.com/@aqs_school" target="_blank">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="فيسبوك" class="social-icon">
@@ -49,12 +43,10 @@
                 </a>
             </div>
 
-            <!-- الوسط: النص -->
             <div class="developer-info">
                 <p>تم التطوير بواسطة وجد الحقباني, مدارس إمجاد قرطبة</p>
             </div>
 
-            <!-- اليمين: اليوتيوب والإنستغرام -->
             <div class="social-media right">
                 <a href="https://x.com/AQS_School" target="_blank">
                     <img src="https://i.postimg.cc/90fDdgRQ/image-removebg-preview-1.png" alt="إنستغرام" class="social-icon">
@@ -68,14 +60,12 @@
 
     <script src="script.js"></script>
     <script>
-        // دالة لتجديد الصفحة
         function refreshPage() {
             window.location.reload();
         }
 
-        // دالة للرجوع إلى الصفحة الرئيسية
         function goToHomePage() {
-            window.location.href = "Reading_Time.html";  // تم تغيير الرابط هنا
+            window.location.href = "Reading_Time.html";
         }
     </script>
 </body>
