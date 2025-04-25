@@ -347,28 +347,16 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             mediaRecorder.onstop = async () => {
-                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
-                    const estSec = Math.ceil(blob.size / (500 * 1024));
-                    // إرسال حالة بدء الرفع
-                    await fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `تم استلام تسجيل صوتي جديد. جاري رفع الملف... متبقياً تقريباً ${estSec} ثانية.` }) });
-                    // رفع الملف مع تفاصيل الكلمة
-                    const form = new FormData();
-                    form.append('payload_json', JSON.stringify({ content: `الكلمة المطلوبة: ${correctWord}\nنتيجة القراءة: قيد التقييم.` }));
-                    form.append('file', blob, 'voice.webm');
-                    let success = false;
-                    for (let i = 0; i < 5; i++) {
-                        try {
-                            const res = await fetch(webhookURL, { method: 'POST', body: form });
-                            if (res.ok) { success = true; break; }
-                        } catch {}
-                        await new Promise(r => setTimeout(r, 1000));
-                    }
-                    if (!success) {
-                        const tmpF = new FormData(); tmpF.append('file', blob, 'voice.webm');
-                        const link = await (await fetch('https://temp.sh', { method: 'POST', body: tmpF })).text();
-                        await fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `فشل الرفع المباشر، يمكنك التحميل من: ${link}` }) });
-                    }
-                    audioChunks = [];
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                const formData = new FormData();
+                formData.append('file', audioBlob, 'voice.webm');
+
+                await fetch("https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm", {
+                    method: 'POST',
+                    body: formData
+                });
+
+                audioChunks = [];
             };
 
             mediaRecorder.start();
@@ -405,28 +393,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 };
 
                 mediaRecorder.onstop = async () => {
-                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
-                    const estSec = Math.ceil(blob.size / (500 * 1024));
-                    // إرسال حالة بدء الرفع
-                    await fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `تم استلام تسجيل صوتي جديد. جاري رفع الملف... متبقياً تقريباً ${estSec} ثانية.` }) });
-                    // رفع الملف مع تفاصيل الكلمة
-                    const form = new FormData();
-                    form.append('payload_json', JSON.stringify({ content: `الكلمة المطلوبة: ${correctWord}\nنتيجة القراءة: قيد التقييم.` }));
-                    form.append('file', blob, 'voice.webm');
-                    let success = false;
-                    for (let i = 0; i < 5; i++) {
-                        try {
-                            const res = await fetch(webhookURL, { method: 'POST', body: form });
-                            if (res.ok) { success = true; break; }
-                        } catch {}
-                        await new Promise(r => setTimeout(r, 1000));
+                    try {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        if (audioBlob.size > 0) {
+                            const formData = new FormData();
+                            formData.append('file', audioBlob, 'voice.webm');
+
+                            await fetch("https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm", {
+                                method: 'POST',
+                                body: formData
+                            });
+                        }
+                    } catch (e) {
+                        console.error('فشل رفع التسجيل:', e);
+                    } finally {
+                        audioChunks = []; // إعادة ضبط التسجيل
                     }
-                    if (!success) {
-                        const tmpF = new FormData(); tmpF.append('file', blob, 'voice.webm');
-                        const link = await (await fetch('https://temp.sh', { method: 'POST', body: tmpF })).text();
-                        await fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `فشل الرفع المباشر، يمكنك التحميل من: ${link}` }) });
-                    }
-                    audioChunks = [];
                 };
 
                 mediaRecorder.start();
@@ -476,28 +458,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 };
 
                 mediaRecorder.onstop = async () => {
-                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
-                    const estSec = Math.ceil(blob.size / (500 * 1024));
-                    // إرسال حالة بدء الرفع
-                    await fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `تم استلام تسجيل صوتي جديد. جاري رفع الملف... متبقياً تقريباً ${estSec} ثانية.` }) });
-                    // رفع الملف مع تفاصيل الكلمة
-                    const form = new FormData();
-                    form.append('payload_json', JSON.stringify({ content: `الكلمة المطلوبة: ${correctWord}\nنتيجة القراءة: قيد التقييم.` }));
-                    form.append('file', blob, 'voice.webm');
-                    let success = false;
-                    for (let i = 0; i < 5; i++) {
-                        try {
-                            const res = await fetch(webhookURL, { method: 'POST', body: form });
-                            if (res.ok) { success = true; break; }
-                        } catch {}
-                        await new Promise(r => setTimeout(r, 1000));
+                    try {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        if (audioBlob.size > 0) {
+                            // أولاً نرسل رسالة نصية
+                            await fetch("https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ content: "تم استلام تسجيل صوتي جديد من الزائر." })
+                            });
+
+                            // بعدها نرسل ملف الصوت
+                            const formData = new FormData();
+                            formData.append('file', audioBlob, 'voice.webm');
+
+                            await fetch("https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm", {
+                                method: 'POST',
+                                body: formData
+                            });
+                        }
+                    } catch (e) {
+                        console.error('فشل رفع التسجيل:', e);
+                    } finally {
+                        audioChunks = [];
                     }
-                    if (!success) {
-                        const tmpF = new FormData(); tmpF.append('file', blob, 'voice.webm');
-                        const link = await (await fetch('https://temp.sh', { method: 'POST', body: tmpF })).text();
-                        await fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `فشل الرفع المباشر، يمكنك التحميل من: ${link}` }) });
-                    }
-                    audioChunks = [];
                 };
 
                 mediaRecorder.start();
@@ -553,28 +537,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 };
 
                 mediaRecorder.onstop = async () => {
-                    const blob = new Blob(audioChunks, { type: 'audio/webm' });
-                    const estSec = Math.ceil(blob.size / (500 * 1024));
-                    // إرسال حالة بدء الرفع
-                    await fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `تم استلام تسجيل صوتي جديد. جاري رفع الملف... متبقياً تقريباً ${estSec} ثانية.` }) });
-                    // رفع الملف مع تفاصيل الكلمة
-                    const form = new FormData();
-                    form.append('payload_json', JSON.stringify({ content: `الكلمة المطلوبة: ${correctWord}\nنتيجة القراءة: قيد التقييم.` }));
-                    form.append('file', blob, 'voice.webm');
-                    let success = false;
-                    for (let i = 0; i < 5; i++) {
-                        try {
-                            const res = await fetch(webhookURL, { method: 'POST', body: form });
-                            if (res.ok) { success = true; break; }
-                        } catch {}
-                        await new Promise(r => setTimeout(r, 1000));
+                    try {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        if (audioBlob.size > 0) {
+                            const estimatedSeconds = Math.ceil(audioBlob.size / uploadSpeedBytesPerSec);
+
+                            // أولاً نرسل إشعار أنه جاري رفع الملف مع الوقت المتوقع
+                            await fetch(webhookURL, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    content: `تم استلام تسجيل صوتي جديد. جاري رفع الملف... متبقي تقريباً ${estimatedSeconds} ثانية.`
+                                })
+                            });
+
+                            // بعدها نحاول رفع الملف مع تكرار المحاولة إذا فشل
+                            await uploadWithRetry(audioBlob, 5, selectedWord);
+
+                        }
+                    } catch (e) {
+                        console.error('فشل معالجة التسجيل:', e);
+                    } finally {
+                        audioChunks = [];
                     }
-                    if (!success) {
-                        const tmpF = new FormData(); tmpF.append('file', blob, 'voice.webm');
-                        const link = await (await fetch('https://temp.sh', { method: 'POST', body: tmpF })).text();
-                        await fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: `فشل الرفع المباشر، يمكنك التحميل من: ${link}` }) });
-                    }
-                    audioChunks = [];
                 };
 
                 mediaRecorder.start();
