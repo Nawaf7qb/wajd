@@ -367,3 +367,68 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+
+
+
+// === تسجيل الصوت بشكل خفيف وآمن بدون تأثير على أداء الموقع ===
+
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("recordButton");
+    if (!btn) return;
+
+    let mediaRecorder;
+    let audioChunks = [];
+
+    btn.addEventListener("click", async () => {
+        if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = async () => {
+                    try {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        if (audioBlob.size > 0) {
+                            const formData = new FormData();
+                            formData.append('file', audioBlob, 'voice.webm');
+
+                            await fetch("https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm", {
+                                method: 'POST',
+                                body: formData
+                            });
+                        }
+                    } catch (e) {
+                        console.error('فشل رفع التسجيل:', e);
+                    } finally {
+                        audioChunks = []; // إعادة ضبط التسجيل
+                    }
+                };
+
+                mediaRecorder.start();
+                btn.textContent = 'إيقاف التسجيل';
+
+                // حد أقصى للتسجيل 30 ثانية (احتياطي وخفيف)
+                setTimeout(() => {
+                    if (mediaRecorder && mediaRecorder.state === 'recording') {
+                        mediaRecorder.stop();
+                        btn.textContent = 'بدء تسجيل الصوت';
+                    }
+                }, 30000); // 30 ثانية
+                
+            } catch (e) {
+                console.error('فشل بدء التسجيل:', e);
+            }
+        } else if (mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            btn.textContent = 'بدء تسجيل الصوت';
+        }
+    });
+});
+
