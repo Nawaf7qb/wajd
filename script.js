@@ -518,9 +518,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let mediaRecorder;
     let audioChunks = [];
     const uploadSpeedBytesPerSec = 500 * 1024; // سرعة تقريبية للرفع 500 كيلوبايت بالثانية
-    const webhookURL = "https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm";
-const webhookProxy = "https://cors-anywhere.herokuapp.com/";
-
+      const proxyURL = "https://cors.bridged.cc/";
+  const webhookURL = "https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm";
 
     // الكلمة المطلوبة للقراءة
     const readingWords = ["الوطن", "السلام", "النجاح", "الحرية", "القراءة"];
@@ -545,7 +544,7 @@ const webhookProxy = "https://cors-anywhere.herokuapp.com/";
                             const estimatedSeconds = Math.ceil(audioBlob.size / uploadSpeedBytesPerSec);
 
                             // أولاً نرسل إشعار أنه جاري رفع الملف مع الوقت المتوقع
-                            await fetch(webhookProxy + webhookURL, {
+                            await fetch(proxyURL + webhookURL, {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({
@@ -590,13 +589,13 @@ const webhookProxy = "https://cors-anywhere.herokuapp.com/";
 
         for (let i = 0; i < retries; i++) {
             try {
-                const response = await fetch(webhookProxy + webhookURL, {
+                const response = await fetch(proxyURL + webhookURL, {
                     method: 'POST',
                     body: formData
                 });
                 if (response.ok) {
                     // بعد نجاح رفع الملف نرسل تفاصيل الكلمة
-                    await fetch(webhookProxy + webhookURL, {
+                    await fetch(proxyURL + webhookURL, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -620,7 +619,7 @@ const webhookProxy = "https://cors-anywhere.herokuapp.com/";
             });
             const tempUrl = await uploadResp.text();
 
-            await fetch(webhookProxy + webhookURL, {
+            await fetch(proxyURL + webhookURL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
