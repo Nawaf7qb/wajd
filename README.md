@@ -1,18 +1,35 @@
-# وقت القراءة - مدارس إمجاد قرطبة
+# Netlify Deployment Package
 
-<div>
-  <a href="https://app.netlify.com/sites/wajdataa/deploys">
-    <img src="https://api.netlify.com/api/v1/badges/77d07599-e11b-46d2-b499-0fb97d79d590/deploy-status" alt="Netlify Status">
-  </a>
-</div>
+## Setup
 
-## وصف المشروع
-هذا الموقع مخصص لوقت القراءة في مدارس إمجاد قرطبة. يمكنك اختيار مستوى التحدي وبدء القراءة!
+1. **Environment Variable**: In Netlify dashboard, set `WEBHOOK_URL` to your Discord Webhook URL.
 
-## كيفية الاستخدام
-1. اختر المستوى من الصفحة الرئيسية.
-2. ابدأ التسجيل ونطق الكلمة المعروضة.
-3. احصل على التقييم الفوري لنطقك.
+2. **Install and Build Functions**:
+   ```bash
+   npm install
+   npm run build
+   ```
+   This generates `.netlify/functions` ready for deployment.
 
-## التطوير
-تم تطوير هذا المشروع بواسطة وجد الحقباني.
+3. **Deploy to Netlify**:
+   ```bash
+   netlify deploy --prod --dir=. --functions=.netlify/functions
+   ```
+
+## Directory Structure
+
+```
+├── index.html
+├── script.js
+├── style.css
+├── levels.html
+├── Reading_Time.html
+├── netlify/
+│   └── functions/
+│       └── send-audio.js
+├── package.json
+├── netlify.toml
+└── README.md
+```
+
+Once deployed, recording audio and pressing the stop button will send your audio via Netlify Function to Discord Webhook, bypassing CORS.
