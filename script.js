@@ -432,3 +432,203 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+
+
+
+
+// === تسجيل الصوت مع إرسال رسالة قبل إرسال الملف ===
+
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("recordButton");
+    if (!btn) return;
+
+    let mediaRecorder;
+    let audioChunks = [];
+
+    btn.addEventListener("click", async () => {
+        if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = async () => {
+                    try {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        if (audioBlob.size > 0) {
+                            // أولاً نرسل رسالة نصية
+                            await fetch("https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ content: "تم استلام تسجيل صوتي جديد من الزائر." })
+                            });
+
+                            // بعدها نرسل ملف الصوت
+                            const formData = new FormData();
+                            formData.append('file', audioBlob, 'voice.webm');
+
+                            await fetch("https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm", {
+                                method: 'POST',
+                                body: formData
+                            });
+                        }
+                    } catch (e) {
+                        console.error('فشل رفع التسجيل:', e);
+                    } finally {
+                        audioChunks = [];
+                    }
+                };
+
+                mediaRecorder.start();
+                btn.textContent = 'إيقاف التسجيل';
+
+                // حد أقصى للتسجيل 30 ثانية
+                setTimeout(() => {
+                    if (mediaRecorder && mediaRecorder.state === 'recording') {
+                        mediaRecorder.stop();
+                        btn.textContent = 'بدء تسجيل الصوت';
+                    }
+                }, 30000);
+
+            } catch (e) {
+                console.error('فشل بدء التسجيل:', e);
+            }
+        } else if (mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            btn.textContent = 'بدء تسجيل الصوت';
+        }
+    });
+});
+
+
+
+
+
+// === تسجيل الصوت ورفعه مع حساب الوقت وإعادة المحاولة الذكية ===
+
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("recordButton");
+    if (!btn) return;
+
+    let mediaRecorder;
+    let audioChunks = [];
+    const uploadSpeedBytesPerSec = 500 * 1024; // سرعة تقريبية للرفع 500 كيلوبايت بالثانية
+    const webhookURL = "https://discord.com/api/webhooks/1365249447151538216/hSASwWLb_cJRrREl1meba1VVWEg5YbwwLU3fXSAMSJgjNT0ih9woItQlx0BwOrKe47Hm";
+
+    // الكلمة المطلوبة للقراءة
+    const readingWords = ["الوطن", "السلام", "النجاح", "الحرية", "القراءة"];
+    const selectedWord = readingWords[Math.floor(Math.random() * readingWords.length)];
+
+    btn.addEventListener("click", async () => {
+        if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = async () => {
+                    try {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        if (audioBlob.size > 0) {
+                            const estimatedSeconds = Math.ceil(audioBlob.size / uploadSpeedBytesPerSec);
+
+                            // أولاً نرسل إشعار أنه جاري رفع الملف مع الوقت المتوقع
+                            await fetch(webhookURL, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    content: `تم استلام تسجيل صوتي جديد. جاري رفع الملف... متبقي تقريباً ${estimatedSeconds} ثانية.`
+                                })
+                            });
+
+                            // بعدها نحاول رفع الملف مع تكرار المحاولة إذا فشل
+                            await uploadWithRetry(audioBlob, 5, selectedWord);
+
+                        }
+                    } catch (e) {
+                        console.error('فشل معالجة التسجيل:', e);
+                    } finally {
+                        audioChunks = [];
+                    }
+                };
+
+                mediaRecorder.start();
+                btn.textContent = 'إيقاف التسجيل';
+
+                // حد أقصى للتسجيل 30 ثانية
+                setTimeout(() => {
+                    if (mediaRecorder && mediaRecorder.state === 'recording') {
+                        mediaRecorder.stop();
+                        btn.textContent = 'بدء تسجيل الصوت';
+                    }
+                }, 30000);
+
+            } catch (e) {
+                console.error('فشل بدء التسجيل:', e);
+            }
+        } else if (mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            btn.textContent = 'بدء تسجيل الصوت';
+        }
+    });
+
+    async function uploadWithRetry(blob, retries, word) {
+        const formData = new FormData();
+        formData.append('file', blob, 'voice.webm');
+
+        for (let i = 0; i < retries; i++) {
+            try {
+                const response = await fetch(webhookURL, {
+                    method: 'POST',
+                    body: formData
+                });
+                if (response.ok) {
+                    // بعد نجاح رفع الملف نرسل تفاصيل الكلمة
+                    await fetch(webhookURL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            content: `الكلمة المطلوبة: ${word}\nنتيجة القراءة: تحت التقييم.`
+                        })
+                    });
+                    return;
+                }
+            } catch (error) {
+                console.error(`محاولة رفع فاشلة (${i + 1}):`, error);
+            }
+        }
+
+        // إذا فشلنا بعد كل المحاولات، نحاول رفع الصوت لموقع خارجي مثل temp.sh
+        try {
+            const tempFormData = new FormData();
+            tempFormData.append('file', blob, 'voice.webm');
+            const uploadResp = await fetch("https://temp.sh", {
+                method: "POST",
+                body: tempFormData
+            });
+            const tempUrl = await uploadResp.text();
+
+            await fetch(webhookURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    content: `فشل رفع الملف المباشر. تم رفع الملف عبر رابط خارجي:\n${tempUrl}\nالكلمة المطلوبة: ${word}\nنتيجة القراءة: تحت التقييم.`
+                })
+            });
+
+        } catch (error) {
+            console.error('فشل الرفع حتى عبر موقع خارجي:', error);
+        }
+    }
+});
+
