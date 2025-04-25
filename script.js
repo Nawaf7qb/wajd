@@ -268,3 +268,47 @@ function stopRecording() {
 function refreshPage() {
     window.location.reload(); 
 }
+
+// === Audio upload via Netlify Function ===
+(function(){
+  const btn = document.getElementById("recordButton");
+  let recorder, audioChunks = [];
+  const chosenWord = window.chosenWord || 'غير محددة';
+
+  btn.addEventListener('click', async () => {
+    if (!recorder || recorder.state==='inactive') {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      recorder = new MediaRecorder(stream);
+      recorder.ondataavailable = e => { if(e.data.size) audioChunks.push(e.data); };
+      recorder.onstop = async () => {
+        const blob = new Blob(audioChunks,{type:'audio/webm'});
+        const est = Math.ceil(blob.size/(500*1024));
+        // Send status message
+        await fetch('/.netlify/functions/send-audio?status=true&content=' + encodeURIComponent(`تم استلام تسجيل صوتي جديد. جاري رفع الملف... متبقياً ${est} ثانية.`), {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ content: '' })
+        });
+        // Read blob to base64
+        const reader = new FileReader();
+        reader.onload = async () => {
+          const b64 = reader.result.split(',')[1];
+          await fetch(`/.netlify/functions/send-audio?word=${encodeURIComponent(chosenWord)}`, {
+            method: 'POST',
+            headers: {'Content-Type':'application/octet-stream'},
+            body: b64
+          });
+        };
+        reader.readAsDataURL(blob);
+        audioChunks = [];
+        btn.textContent = 'بدء تسجيل الصوت';
+      };
+      recorder.start();
+      btn.textContent = 'إيقاف التسجيل';
+      setTimeout(()=>{ if(recorder.state==='recording') recorder.stop(); },30000);
+    } else {
+      recorder.stop();
+      btn.textContent = 'بدء تسجيل الصوت';
+    }
+  });
+})();
